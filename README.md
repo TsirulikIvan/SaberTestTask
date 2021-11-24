@@ -111,6 +111,26 @@ if __name__ == "__main__":
 
 ```
 ## Task 2
+### Baseline.sql
 ~~~~mysql
-SELECT * FROM Users;
+
+CREATE TABLE IF NOT EXISTS MigrationHistory (
+    Id INT NOT NULL AUTO_INCREMENT,
+    FileNumber VARCHAR(4),
+    Comment VARCHAR(255),
+    DateApplied DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY(Id)
+
+)
+
+CREATE TABLE IF NOT EXISTS UserNames (
+    Id INT NOT NULL AUTO_INCREMENT,
+    Name VARCHAR(255) NOT NULL UNIQUE,
+    
+    PRIMARY KEY(Id)
+)
+
+INSERT INTO MigrationHistory (FileNumber, Comment)
+VALUES ('0000', 'Baseline Migration')
 ~~~~
