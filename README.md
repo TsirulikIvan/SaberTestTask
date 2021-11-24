@@ -41,7 +41,6 @@ def generate_merged_log(output_file_path: Path, files_paths: Tuple[Path, ...]) -
 
             for lines in zip(log1_file, log2_file):
 
-                print(cur_iter)
                 lines = list(lines)
                 tss = (line.split(', ')[1][14:-1:] for line in lines)
                 ts1, ts2 = (datetime.strptime(ts, "%Y-%m-%d %H:%M:%S") for ts in tss)
@@ -51,10 +50,7 @@ def generate_merged_log(output_file_path: Path, files_paths: Tuple[Path, ...]) -
                     ts1, ts2 = ts2, ts1
 
                 timestamps_buffer.insert(0, TimestampData(ts2, lines[1]))
-
-                if max_buffer_size < len(timestamps_buffer):
-                    max_buffer_size = len(timestamps_buffer)
-
+                
                 min_cur_index = None
 
                 for ts in timestamps_buffer:
