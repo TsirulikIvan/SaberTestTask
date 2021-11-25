@@ -108,34 +108,16 @@ if __name__ == "__main__":
 
 ```
 ## Task 2
-### План Миграции
+### Шаги для миграции БД
 1. Создание Baseline миграций
     * Дамп существующей базы
     * Добавление в БД таблицы миграций (для отслеживания изменений)
     * Добавление в БД таблицы имен пользователей
 2. Первая миграция
-3. 
-### Примерный код миграций
-#### Baseline.sql
-~~~~mysql
-
-CREATE TABLE IF NOT EXISTS MigrationHistory (
-    Id INT NOT NULL AUTO_INCREMENT,
-    FileNumber VARCHAR(4),
-    Comment VARCHAR(255),
-    DateApplied DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-    PRIMARY KEY(Id)
-
-)
-
-CREATE TABLE IF NOT EXISTS UserNames (
-    Id INT NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(255) NOT NULL UNIQUE,
-    
-    PRIMARY KEY(Id)
-)
-
-INSERT INTO MigrationHistory (FileNumber, Comment)
-VALUES ('0000', 'Baseline Migration')
-~~~~
+3. Описание шага
+4. Описание шага
+### Шаги для миграции сервисов
+1. Описание шага
+2. Описание шага
+3. Описание шага
+4. Описание шага
