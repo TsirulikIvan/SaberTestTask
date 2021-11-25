@@ -11,6 +11,9 @@ from typing import Tuple
 
 _LOG_FILENAMES = 'log_a.jsonl', 'log_b.jsonl'
 _OUTPUT_FILENAME = 'merged_log.jsonl'
+_TIMESTAMP_INDEX = 1
+_TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
+_TIMESTAMP_START_INDEX = 14
 
 
 def create_dir(dir_path: Path) -> None:
@@ -42,8 +45,8 @@ def generate_merged_log(output_file_path: Path, files_paths: Tuple[Path, ...]) -
             for lines in zip(log1_file, log2_file):
 
                 lines = list(lines)
-                tss = (line.split(', ')[1][14:-1:] for line in lines)
-                ts1, ts2 = (datetime.strptime(ts, "%Y-%m-%d %H:%M:%S") for ts in tss)
+                lines_ts = (line.split(', ')[_TIMESTAMP_INDEX][_TIMESTAMP_START_INDEX:-1:] for line in lines)
+                ts1, ts2 = (datetime.strptime(line_ts, _TIMESTAMP_FORMAT) for line_ts in lines_ts)
 
                 if ts1 > ts2:
                     swap_lines(lines)
