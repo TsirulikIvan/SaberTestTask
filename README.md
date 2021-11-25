@@ -8,11 +8,10 @@ from pathlib import Path
 from datetime import datetime
 from typing import Tuple
 
-
 _LOG_FILENAMES = 'log_a.jsonl', 'log_b.jsonl'
 _OUTPUT_FILENAME = 'merged_log.jsonl'
 _TIMESTAMP_INDEX = 1
-_TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
+_TIMESTAMP_FORMAT = '%Y-%m-%d %H:%M:%S'
 _TIMESTAMP_START_INDEX = 14
 
 
@@ -34,7 +33,6 @@ def swap_lines(lines_list: list, index_1: int = 0, index_2: int = 1) -> None:
 
 
 def generate_merged_log(output_file_path: Path, files_paths: Tuple[Path, ...]) -> None:
-    global max_buffer_size
     log1_path, log2_path = (dir_path.joinpath(filename) for dir_path, filename in zip(files_paths, _LOG_FILENAMES))
     with log1_path.open('r') as log1_file, log2_path.open('r') as log2_file:
 
@@ -53,7 +51,7 @@ def generate_merged_log(output_file_path: Path, files_paths: Tuple[Path, ...]) -
                     ts1, ts2 = ts2, ts1
 
                 timestamps_buffer.insert(0, TimestampData(ts2, lines[1]))
-                
+
                 min_cur_index = None
 
                 for ts in timestamps_buffer:
