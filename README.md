@@ -124,7 +124,29 @@ if __name__ == "__main__":
     * Удаление поля name из основной таблицы
 
 ### Миграции сервисов типа A
-Перед непосредственной записью данных в БД необходимо будет проверить существует ли такой name в таблице имен пользователей (Написать транзакцию на языке запросов или сложный запрос, если средства СУБД позволяют возвращать значения, например RETURING из Postgres)
+Перед непосредственной записью данных в БД необходимо будет проверить существует ли такой name в таблице имен пользователей (Написать процедуру на языке запросов или сложный запрос, если средства СУБД позволяют возвращать значения, например RETURING из Postgres)
+
+Пример нового запроса на запись данных (основная таблица - UsersStates, вспомогательной - UsersNames)
+
+~~~~mysql
+CREATE PROCEDURE query_data()
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+    SET @name_id = SELECT name FROM UsersNames where name=<cur_name>;
+    INSERT INTO UsersStates (name_id, status, timestamp)
+    VALUES (@name_id, <cur_status>, <cur_timestamp>);
+  END;
+
+  START TRANSACTION;
+    INSERT INTO UsersStates ('name_id', 'status', 'timestamp')
+    VALUES (INSERT INTO UsersNames VALUES (<cur_name>) RETURING id, <cur_status>, <cur_timestamp>);
+  COMMIT;
+END;
+
+CALL prc_test();
+~~~~
 
 ### Миграции сервисов типа Б
 Необходимо немного модифицировать запрос на выборку данных, чтоб name бралось из созданной нами новой таблицы а не из основной. Как пример на mysql использовать INNER JOIN
