@@ -87,7 +87,9 @@ def parse_args() -> argparse.Namespace:
                         type=str,
                         help='path to second log file')
 
-    parser.add_argument('merged_log_path',
+    parser.add_argument('-o',
+                        '--output_dir',
+                        default='',
                         metavar='<MERGED LOG DIR>',
                         type=str,
                         help='path to merged log file')
@@ -97,7 +99,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    output_dir = Path(args.merged_log_path)
+    output_dir = Path(args.output_dir)
     logs_dir = Path(args.log_1_path), Path(args.log_2_path)
     create_dir(output_dir)
     generate_merged_log(output_dir, logs_dir)
@@ -105,7 +107,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
+    
 ```
 ## Task 2
 ### Шаги Миграции БД
@@ -145,7 +147,7 @@ BEGIN
   COMMIT;
 END;
 
-CALL prc_test();
+CALL query_data();
 ~~~~
 
 ### Миграции сервисов типа Б
